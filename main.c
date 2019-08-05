@@ -1,11 +1,4 @@
-/******************** ÉÐÑ§¿Æ¼¼ **************************
- * ÊµÑéÆ½Ì¨£º¿ªÍØÕßSTM32¿ª·¢°å
- * ¿â°æ±¾  £ºST3.5.0
- * ×÷Õß    £ºÉÐÑ§¿Æ¼¼ÍÅ¶Ó 
- * ÌÔ±¦    £ºhttp://shop102218275.taobao.com/
- * ±¾³ÌÐòÖ»¹©Ñ§Ï°Ê¹ÓÃ£¬Î´¾­×÷ÕßÐí¿É£¬²»µÃÓÃÓÚÆäËüÈÎºÎÓÃÍ¾
- *°æÈ¨ËùÓÐ£¬µÁ°æ±Ø¾¿¡£
-**********************************************************************************/
+
 #include "stm32f10x.h"
 #include "usart1.h"
 #include "delay.h"
@@ -25,7 +18,7 @@
 #include "lcd.h"
 #include "text.h"
 
-/* »ñÈ¡»º³åÇøµÄ³¤¶È */
+/* èŽ·å–ç¼“å†²åŒºçš„é•¿åº¦ */
 #define TxBufferSize1   (countof(TxBuffer1) - 1)
 #define RxBufferSize1   (countof(TxBuffer1) - 1)
 #define countof(a)      (sizeof(a) / sizeof(*(a)))
@@ -38,29 +31,29 @@
 #define  sFLASH_ID              0xEF4015	 //W25Q16
      
 
-/* ·¢ËÍ»º³åÇø³õÊ¼»¯ */
-uint8_t Tx_Buffer[] = " ¸ÐÐ»ÄúÑ¡ÓÃ¿ªÍØÕßSTM32¿ª·¢°å\r\n";
+/* å‘é€ç¼“å†²åŒºåˆå§‹åŒ– */
+uint8_t Tx_Buffer[] = " æ„Ÿè°¢æ‚¨\r\n";
 uint8_t Rx_Buffer[TxRxBufferSize];
 
 
 __IO uint32_t FlashID = 0;
 
 /*
- * º¯ÊýÃû£ºmain
- * ÃèÊö  £ºÖ÷º¯Êý
- * ÊäÈë  £ºÎÞ
- * Êä³ö  £ºÎÞ
+ * å‡½æ•°åï¼šmain
+ * æè¿°  ï¼šä¸»å‡½æ•°
+ * è¾“å…¥  ï¼šæ— 
+ * è¾“å‡º  ï¼šæ— 
  */
 
 #if 1
 
 /**************************************************************************************************************************************
-Demo ³ÌÐòÁ÷³Ì  isMaster=true  ÎªÖ÷»ú¶Ë£¬Ö÷»ú¶Ë·¢ËÍÒ»¸ö"PING"Êý¾ÝLEDÉÁË¸ºóÇÐ»»µ½½ÓÊÕ£¬µÈ´ý´Ó»ú·µ»ØµÄÓ¦´ð"PONG"Êý¾Ý
+Demo ç¨‹åºæµç¨‹  isMaster=true  ä¸ºä¸»æœºç«¯ï¼Œä¸»æœºç«¯å‘é€ä¸€ä¸ª"PING"æ•°æ®LEDé—ªçƒåŽåˆ‡æ¢åˆ°æŽ¥æ”¶ï¼Œç­‰å¾…ä»Žæœºè¿”å›žçš„åº”ç­”"PONG"æ•°æ®
 
-               isMaster=false Îª´Ó»ú¶Ë£¬´Ó»ú¶Ë½ÓÊÕµ½Ö÷»ú¶Ë·¢¹ýÀ´µÄ"PING"Êý¾Ýºó·¢ËÍÒ»¸ö"PONG"Êý¾Ý×÷ÎªÓ¦´ð£¬·¢ËÍÍê"PONG"Êý¾ÝºóLEDÉÁË¸
+               isMaster=false ä¸ºä»Žæœºç«¯ï¼Œä»Žæœºç«¯æŽ¥æ”¶åˆ°ä¸»æœºç«¯å‘è¿‡æ¥çš„"PING"æ•°æ®åŽå‘é€ä¸€ä¸ª"PONG"æ•°æ®ä½œä¸ºåº”ç­”ï¼Œå‘é€å®Œ"PONG"æ•°æ®åŽLEDé—ªçƒ
 ***************************************************************************************************************************************/
 
-bool isMaster = false;//true;//Ö÷´ÓÑ¡Ôñ
+bool isMaster = false;//true;//ä¸»ä»Žé€‰æ‹©
 
 
 ModulationParams_t modulationParams;
@@ -287,18 +280,18 @@ void NVIC_Config()
   NVIC_Init(&NVIC_InitStructure);
 }
 
-void HW_Int()//MCUÍâÎ§×ÊÔ´³õÊ¼»¯
+void HW_Int()//MCUå¤–å›´èµ„æºåˆå§‹åŒ–
 {
   SysClock_48(); 
   Tick_Configration();
   RCC_Configuration();
   GPIO_int();
-  NVIC_Config();//ÉèÖÃÄ£¿éDIO1½ÅÁ¬½ÓµÄMCU IO¿ÚÎªÍâ²¿ÉÏÉýÑØÖÐ¶Ï,ÉÏÊý¾ÝÊÕ·¢Íê³ÉºóÄ£¿éµÄDIO1½Å»á²úÉúÒ»¸öÉÏÉýÑØ
+  NVIC_Config();//è®¾ç½®æ¨¡å—DIO1è„šè¿žæŽ¥çš„MCU IOå£ä¸ºå¤–éƒ¨ä¸Šå‡æ²¿ä¸­æ–­,ä¸Šæ•°æ®æ”¶å‘å®ŒæˆåŽæ¨¡å—çš„DIO1è„šä¼šäº§ç”Ÿä¸€ä¸ªä¸Šå‡æ²¿
   SPI2_Int();
   printf("\r\n HW init\r\n");
 }
 
-void LED_Indicate()//LEDÖ¸Ê¾µÆÉÁË¸
+void LED_Indicate()//LEDæŒ‡ç¤ºç¯é—ªçƒ
 {
  LED0_ON;
  Delay_Ms(20);
@@ -308,27 +301,27 @@ void LED_Indicate()//LEDÖ¸Ê¾µÆÉÁË¸
 
 
 
-void SE243L_PA_Enable()//SE243L¿ªPAÍ¨µÀ
+void SE243L_PA_Enable()//SE243Lå¼€PAé€šé“
 {
   GPIO_WriteBit(RADIO_CPS_PORT, RADIO_CPS_PIN, Bit_RESET);// CPS=0
   GPIO_WriteBit(RADIO_CSD_PORT, RADIO_CSD_PIN, Bit_SET);//CSD=1
   GPIO_WriteBit(RADIO_CTX_PORT, RADIO_CTX_PIN, Bit_SET);//CTX=1
   
-  GPIO_WriteBit(ANT_SEL_PORT, ANT_SEL_PIN, Bit_SET);//Ñ¡ÔñSE2431LÌìÏß¶Ë¿ÚANT2     SEL=1
-//GPIO_WriteBit(ANT_SEL_PORT, ANT_SEL_PIN, Bit_RESET);//Ñ¡ÔñSE2431LÌìÏß¶Ë¿ÚANT1   SEL=0
+  GPIO_WriteBit(ANT_SEL_PORT, ANT_SEL_PIN, Bit_SET);//é€‰æ‹©SE2431Lå¤©çº¿ç«¯å£ANT2     SEL=1
+//GPIO_WriteBit(ANT_SEL_PORT, ANT_SEL_PIN, Bit_RESET);//é€‰æ‹©SE2431Lå¤©çº¿ç«¯å£ANT1   SEL=0
 }
 
-void SE243L_LNA_Enable()//SE243L¿ªLANÍ¨µÀ
+void SE243L_LNA_Enable()//SE243Lå¼€LANé€šé“
 {
   GPIO_WriteBit(RADIO_CPS_PORT, RADIO_CPS_PIN, Bit_SET);//CPS=1
   GPIO_WriteBit(RADIO_CSD_PORT, RADIO_CSD_PIN, Bit_SET);//CSD=1
   GPIO_WriteBit(RADIO_CTX_PORT, RADIO_CTX_PIN, Bit_RESET);//CTX=0
   
-  GPIO_WriteBit(ANT_SEL_PORT, ANT_SEL_PIN, Bit_SET);//Ñ¡ÔñSE2431LÌìÏß¶Ë¿ÚANT2     SEL=1
-//GPIO_WriteBit(ANT_SEL_PORT, ANT_SEL_PIN, Bit_RESET);//Ñ¡ÔñSE2431LÌìÏß¶Ë¿ÚANT1   SEL=0
+  GPIO_WriteBit(ANT_SEL_PORT, ANT_SEL_PIN, Bit_SET);//é€‰æ‹©SE2431Lå¤©çº¿ç«¯å£ANT2     SEL=1
+//GPIO_WriteBit(ANT_SEL_PORT, ANT_SEL_PIN, Bit_RESET);//é€‰æ‹©SE2431Lå¤©çº¿ç«¯å£ANT1   SEL=0
 }
 
-void SE243L_SLEEP()//SE243L½øÈëSLEEP
+void SE243L_SLEEP()//SE243Lè¿›å…¥SLEEP
 {
   GPIO_WriteBit(RADIO_CPS_PORT, RADIO_CPS_PIN, Bit_RESET);//CPS=0
   GPIO_WriteBit(RADIO_CSD_PORT, RADIO_CSD_PIN, Bit_RESET);//CSD=0
@@ -389,11 +382,11 @@ uint16_t GetCrc16(uint8_t *ptr, uint32_t count)
 	crc = 0;
 	while (count--)
 	{
-		crc = crc ^ (int) *ptr++ << 8;//´Ópacket_dataÖÐÈ¡Ò»¸ö×Ö½ÚÊý¾Ý£¬Ç¿×ªÎª16Îªint£¬ÔÙ°ÑµÍ°ËÎ»ÒÆµ½¸ß°ËÎ»£¬¸³Öµ¸øcrc
+		crc = crc ^ (int) *ptr++ << 8;//ä»Žpacket_dataä¸­å–ä¸€ä¸ªå­—èŠ‚æ•°æ®ï¼Œå¼ºè½¬ä¸º16ä¸ºintï¼Œå†æŠŠä½Žå…«ä½ç§»åˆ°é«˜å…«ä½ï¼Œèµ‹å€¼ç»™crc
 
 		for (i = 0; i < 8; i++)
 		{
-			if (crc & 0x8000)//ÅÐ¶ÏÊý¾ÝµÄ×î¸ßÎ»Êý¾ÝÊÇ·ñÎª1
+			if (crc & 0x8000)//åˆ¤æ–­æ•°æ®çš„æœ€é«˜ä½æ•°æ®æ˜¯å¦ä¸º1
 				crc = crc << 1 ^ 0x1021; // CRC-ITU
 			else
 				crc = crc << 1;
@@ -428,9 +421,9 @@ void lora_reset(void)
 		Radio.SetPacketType( modulationParams.PacketType );
 		Radio.SetModulationParams( &modulationParams );
 		Radio.SetPacketParams( &packetParams );
-		Radio.SetRfFrequency( RF_FREQUENCY );//ÆµµãÉèÖÃ
+		Radio.SetRfFrequency( RF_FREQUENCY );//é¢‘ç‚¹è®¾ç½®
 		Radio.SetBufferBaseAddresses( 0x00, 0x00 );
-		Radio.SetTxParams( TX_OUTPUT_POWER, RADIO_RAMP_02_US );//¹¦ÂÊÉèÖÃ
+		Radio.SetTxParams( TX_OUTPUT_POWER, RADIO_RAMP_02_US );//åŠŸçŽ‡è®¾ç½®
 		
 	   // Radio.SetInterruptMode();
 		Radio.SetPollingMode();  
@@ -463,7 +456,7 @@ void lora_running(void)
 	//for(index = 0;index < BUFFER_SIZE;index++)
 	//	printf("%02x ",*((uint8_t*)&Host2Child[0]+index));
 
-	SE243L_PA_Enable();//ÇÐ»»µ½PAÍ¨µÀÀ
+	SE243L_PA_Enable();//åˆ‡æ¢åˆ°PAé€šé“ï¿½
 	Radio.SetDioIrqParams( TxIrqMask, TxIrqMask, IRQ_RADIO_NONE, IRQ_RADIO_NONE );
 	Radio.SendPayload( (uint8_t*)&Host2Child[g_childIndex], BUFFER_SIZE, ( TickTime_t ){ RX_TIMEOUT_TICK_SIZE, TX_TIMEOUT_VALUE } );
 	AppState = APP_LOWPOWER;
@@ -506,8 +499,8 @@ int main(void)
 	while(1)
 	{
 	#if 0
-		 value=KEY_Scan();//µÃµ½¼üÖµ
-		LED_Indicate();//LEDÉÁË¸
+		 value=KEY_Scan();//å¾—åˆ°é”®å€¼
+		LED_Indicate();//LEDé—ªçƒ
 		if (FlashID == sFLASH_ID)  /* #define  sFLASH_ID  0xEF3015 */
 		{
 			if(value==1)
@@ -515,18 +508,18 @@ int main(void)
 				/* Erase SPI FLASH Sector to write on */
 				SPI_FLASH_SectorErase(FLASH_SectorToErase);	
 				SPI_FLASH_BufferWrite(Tx_Buffer, FLASH_WriteAddress, TxRxBufferSize);
-				printf("\r\n Ð´ÈëµÄÊý¾ÝÎª£º%s \r\t", Tx_Buffer);
+				printf("\r\n å†™å…¥çš„æ•°æ®ä¸ºï¼š%s \r\t", Tx_Buffer);
 			}
 			if(value==2)
 			{
 				SPI_FLASH_BufferRead(Rx_Buffer, FLASH_ReadAddress, TxRxBufferSize);
-				printf("\r\n ¶Á³öµÄÊý¾ÝÎª£º%s \r\n", Tx_Buffer);
+				printf("\r\n è¯»å‡ºçš„æ•°æ®ä¸ºï¼š%s \r\n", Tx_Buffer);
 			}
     	}
 		#endif
 	#if 1
 	 
-        SX1280ProcessIrqs( );//µ±·¢ËÍÍêÒ»°üÊý¾Ý»ò½ÓÊÕµ½Ò»°üÊý¾ÝºóÄ£¿éµÄDIO1½Å²úÉúÒ»¸öÉÏÉýÑØ£¬
+        SX1280ProcessIrqs( );//å½“å‘é€å®Œä¸€åŒ…æ•°æ®æˆ–æŽ¥æ”¶åˆ°ä¸€åŒ…æ•°æ®åŽæ¨¡å—çš„DIO1è„šäº§ç”Ÿä¸€ä¸ªä¸Šå‡æ²¿ï¼Œ
         
         switch( AppState )
         {
@@ -546,7 +539,7 @@ int main(void)
 					break;
 				}
 
-				SE243L_PA_Enable();//ÇÐ»»µ½PAÍ¨µÀ
+				SE243L_PA_Enable();//åˆ‡æ¢åˆ°PAé€šé“
 				Radio.SetDioIrqParams( TxIrqMask, TxIrqMask, IRQ_RADIO_NONE, IRQ_RADIO_NONE );
 				Radio.SendPayload( (uint8_t*)&Host2Child[g_childIndex], BUFFER_SIZE, ( TickTime_t ){ RX_TIMEOUT_TICK_SIZE, TX_TIMEOUT_VALUE } );
 
@@ -559,7 +552,7 @@ int main(void)
             case APP_TX:
                 AppState = APP_LOWPOWER;
 				
-				SE243L_LNA_Enable();//ÇÐ»»µ½LNAÍ¨µÀ
+				SE243L_LNA_Enable();//åˆ‡æ¢åˆ°LNAé€šé“
 				Radio.SetDioIrqParams( RxIrqMask, RxIrqMask, IRQ_RADIO_NONE, IRQ_RADIO_NONE );
 				Radio.SetRx( ( TickTime_t ) { RX_TIMEOUT_TICK_SIZE, RX_TIMEOUT_VALUE } );
 
@@ -569,7 +562,7 @@ int main(void)
                  AppState = APP_LOWPOWER;
                  Delay_Ms(200);
 				 LED_Indicate();
-				 SE243L_PA_Enable();//ÇÐ»»µ½PAÍ¨µÀ
+				 SE243L_PA_Enable();//åˆ‡æ¢åˆ°PAé€šé“
 				 Radio.SetDioIrqParams( TxIrqMask, TxIrqMask, IRQ_RADIO_NONE, IRQ_RADIO_NONE );
 				 Radio.SendPayload( (uint8_t*)&Host2Child[g_childIndex], BUFFER_SIZE, ( TickTime_t ){ RX_TIMEOUT_TICK_SIZE, TX_TIMEOUT_VALUE } );
                
@@ -578,7 +571,7 @@ int main(void)
             case APP_RX_ERROR:
                 AppState = APP_LOWPOWER;
 
-				SE243L_PA_Enable();//ÇÐ»»µ½PAÍ¨µÀ
+				SE243L_PA_Enable();//åˆ‡æ¢åˆ°PAé€šé“
 				Radio.SetDioIrqParams( TxIrqMask, TxIrqMask, IRQ_RADIO_NONE, IRQ_RADIO_NONE );
 				Radio.SendPayload( (uint8_t*)&Host2Child[g_childIndex], BUFFER_SIZE, ( TickTime_t ){ RX_TIMEOUT_TICK_SIZE, TX_TIMEOUT_VALUE } );
 
@@ -588,11 +581,11 @@ int main(void)
                 
                 AppState = APP_LOWPOWER;
 						    
-				//SE243L_LNA_Enable();//ÇÐ»»µ½LNAÍ¨µÀ
+				//SE243L_LNA_Enable();//åˆ‡æ¢åˆ°LNAé€šé“
                 //Radio.SetDioIrqParams( RxIrqMask, RxIrqMask, IRQ_RADIO_NONE, IRQ_RADIO_NONE );
                 //Radio.SetRx( ( TickTime_t ) { RX_TIMEOUT_TICK_SIZE, RX_TIMEOUT_VALUE } ); 
                 
-				SE243L_PA_Enable();//ÇÐ»»µ½PAÍ¨µÀ
+				SE243L_PA_Enable();//åˆ‡æ¢åˆ°PAé€šé“
 				Radio.SetDioIrqParams( TxIrqMask, TxIrqMask, IRQ_RADIO_NONE, IRQ_RADIO_NONE );
 				Radio.SendPayload( (uint8_t*)&Host2Child[g_childIndex], BUFFER_SIZE, ( TickTime_t ){ RX_TIMEOUT_TICK_SIZE, TX_TIMEOUT_VALUE } );
                 break;
